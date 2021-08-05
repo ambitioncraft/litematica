@@ -56,6 +56,7 @@ public class KeyCallbacks
 
         Configs.Generic.PICK_BLOCKABLE_SLOTS.setValueChangeCallback(valueChangeCallback);
 
+
         Hotkeys.CLONE_SELECTION.getKeybind().setCallback(callbackHotkeys);
         Hotkeys.EXECUTE_OPERATION.getKeybind().setCallback(callbackHotkeys);
         Hotkeys.LAYER_MODE_NEXT.getKeybind().setCallback(callbackHotkeys);
@@ -113,6 +114,9 @@ public class KeyCallbacks
         Hotkeys.TOGGLE_TRANSLUCENT_RENDERING.getKeybind().setCallback(new RenderToggle(Configs.Visuals.RENDER_BLOCKS_AS_TRANSLUCENT));
         Hotkeys.TOGGLE_VERIFIER_OVERLAY_RENDERING.getKeybind().setCallback(new KeyCallbackToggleBooleanConfigWithMessage(Configs.InfoOverlays.VERIFIER_OVERLAY_ENABLED));
         Hotkeys.TOOL_ENABLED_TOGGLE.getKeybind().setCallback(new KeyCallbackToggleBooleanConfigWithMessage(Configs.Generic.TOOL_ITEM_ENABLED));
+
+        Hotkeys.TOGGLE_EASY_PLACE_MODE_PRECISE.getKeybind().setCallback(new KeyCallbackToggleBooleanConfigWithMessage(Configs.Generic.EASY_PLACE_MODE_PRECISE));
+        Hotkeys.TOGGLE_ALLOW_ALTERNATE_BLOCKS.getKeybind().setCallback(new KeyCallbackToggleBooleanConfigWithMessage(Configs.Generic.ALLOW_ALTERNATE_BLOCKS));
     }
 
     private static class ValueChangeCallback implements IValueChangeCallback<ConfigString>
@@ -419,7 +423,9 @@ public class KeyCallbacks
             {
                 if (EntityUtils.shouldPickBlock(this.mc.player))
                 {
-                    return WorldUtils.doSchematicWorldPickBlock(true, this.mc);
+                    if(WorldUtils.doSchematicWorldPickBlock(true, this.mc) != null) {
+                        return true;
+                    };
                 }
 
                 return false;

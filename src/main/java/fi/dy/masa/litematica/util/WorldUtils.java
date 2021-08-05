@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
+
+import com.ambitioncraft.willow.litematicahelpers.AlternateBlockUtils;
 import com.mojang.datafixers.DataFixer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -25,9 +27,7 @@ import net.minecraft.client.world.ClientChunkManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.structure.Structure;
@@ -345,13 +345,13 @@ public class WorldUtils
         }
     }
 
-    /**
+     /**
      * Does a ray trace to the schematic world, and returns either the closest or the furthest hit block.
      * @param closest
      * @param mc
-     * @return true if the correct item was or is in the player's hand after the pick block
+     * @return ItemStack of the correct item if it was able to move to the players main hand, otherwise NULL
      */
-    public static boolean doSchematicWorldPickBlock(boolean closest, MinecraftClient mc)
+    public static ItemStack doSchematicWorldPickBlock(boolean closest, MinecraftClient mc )
     {
         BlockPos pos = null;
 
@@ -359,8 +359,7 @@ public class WorldUtils
         {
             pos = RayTraceUtils.getSchematicWorldTraceIfClosest(mc.world, mc.player, 6);
         }
-        else
-        {
+        else {
             pos = RayTraceUtils.getFurthestSchematicWorldTrace(mc.world, mc.player, 6);
         }
 
@@ -395,6 +394,14 @@ public class WorldUtils
                 else
                 {
                     int slot = inv.getSlotWithStack(stack);
+                    /*WILLOW*/
+                    if(slot == -1 && Configs.Generic.ALLOW_ALTERNATE_BLOCKS.getBooleanValue()){
+                        slot = AlternateBlockUtils.getInstance().findAlternativeStackSlotInInventory(stack, inv);
+                        if(slot > -1){
+                            stack = inv.getStack(slot);
+                        }
+                    }
+                    /*WILLOW*/
                     boolean shouldPick = inv.selectedSlot != slot;
 
                     if (shouldPick && slot != -1)
@@ -411,15 +418,13 @@ public class WorldUtils
                             InventoryUtils.setPickedItemToHand(boxStack, mc);
                         }
                     }
-
-                    //return shouldPick == false || canPick;
                 }
             }
 
-            return true;
+            return stack;
         }
 
-        return false;
+        return null;
     }
 
     public static void easyPlaceOnUseTick(MinecraftClient mc)
@@ -449,6 +454,15 @@ public class WorldUtils
 
     private static ActionResult doEasyPlaceAction(MinecraftClient mc)
     {
+        if(Configs.Generic.FLUID_REPLACE_ENABLED.getBooleanValue()){
+            return com.ambitioncraft.willow.litematicahelpers.Printer.replaceLiquids(mc);
+        }else if(Configs.Generic.EASY_PLACE_MODE_PRECISE.getBooleanValue()) {
+            return com.ambitioncraft.willow.litematicahelpers.PrecisePlacement.easyPlace(mc);
+        }
+        else if(Configs.Generic.EASY_PLACE_MODE_PRINT.getBooleanValue()){
+            return com.ambitioncraft.willow.litematicahelpers.Printer.doPrinterAction(mc);
+        }
+
         RayTraceWrapper traceWrapper = RayTraceUtils.getGenericTrace(mc.world, mc.player, 6, true);
 
         if (traceWrapper == null)
@@ -487,8 +501,8 @@ public class WorldUtils
                 }
 
                 // Abort if the required item was not able to be pick-block'd
-                if (doSchematicWorldPickBlock(true, mc) == false)
-                {
+                stack = doSchematicWorldPickBlock(true, mc);
+                if(stack == null){
                     return ActionResult.FAIL;
                 }
 

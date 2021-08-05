@@ -4,6 +4,8 @@ bin/
 build/
 eclipse/
 logs/
+run/
 .classpath
 .project
 build.number
+.idea/

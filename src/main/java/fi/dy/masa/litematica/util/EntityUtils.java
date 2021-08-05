@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nullable;
+
+import com.ambitioncraft.willow.litematicahelpers.AlternateBlockUtils;
 import com.google.common.base.Predicate;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -83,7 +85,7 @@ public class EntityUtils
     {
         Hand hand = null;
 
-        if (InventoryUtils.areStacksEqual(player.getMainHandStack(), stack))
+        if (InventoryUtils.areStacksEqual(player.getMainHandStack(), stack) || AlternateBlockUtils.instance.isAlternateBlockFor(player.getMainHandStack(),stack))
         {
             hand = Hand.MAIN_HAND;
         }

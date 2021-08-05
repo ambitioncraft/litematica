@@ -14,12 +14,7 @@ import fi.dy.masa.malilib.config.ConfigUtils;
 import fi.dy.masa.malilib.config.HudAlignment;
 import fi.dy.masa.malilib.config.IConfigBase;
 import fi.dy.masa.malilib.config.IConfigHandler;
-import fi.dy.masa.malilib.config.options.ConfigBoolean;
-import fi.dy.masa.malilib.config.options.ConfigColor;
-import fi.dy.masa.malilib.config.options.ConfigDouble;
-import fi.dy.masa.malilib.config.options.ConfigInteger;
-import fi.dy.masa.malilib.config.options.ConfigOptionList;
-import fi.dy.masa.malilib.config.options.ConfigString;
+import fi.dy.masa.malilib.config.options.*;
 import fi.dy.masa.malilib.util.FileUtils;
 import fi.dy.masa.malilib.util.JsonUtils;
 
@@ -55,6 +50,18 @@ public class Configs implements IConfigHandler
         public static final ConfigString        TOOL_ITEM               = new ConfigString(     "toolItem", "minecraft:stick", "The item to use as the \"tool\" for selections etc.");
         public static final ConfigBoolean       TOOL_ITEM_ENABLED       = new ConfigBoolean(    "toolItemEnabled", true, "If true, then the \"tool\" item can be used to control selections etc.", "Tool Item Enabled");
 
+        public static final ConfigBoolean ALLOW_ALTERNATE_BLOCKS        = new ConfigBoolean("allowAlternateBlocks", false, "Allows for alternate blocks to be used in place of others");
+        public static final ConfigBoolean EASY_PLACE_MODE_PRECISE       = new ConfigBoolean("easyPlaceModePrecise", true, "Allows for more precise placement of blocks");
+        public static final ConfigBoolean EASY_PLACE_MODE_PRINT         = new ConfigBoolean("easyPlaceModePrint", false, "Allows printing");
+        public static final ConfigInteger EASY_PLACE_MODE_RANGE_X       = new ConfigInteger("easyPlaceModeRangeX", 3, 0, 1024, "X Range for EasyPlace");
+        public static final ConfigInteger EASY_PLACE_MODE_RANGE_Y       = new ConfigInteger("easyPlaceModeRangeY", 3, 0, 1024, "Y Range for EasyPlace");
+        public static final ConfigInteger EASY_PLACE_MODE_RANGE_Z       = new ConfigInteger("easyPlaceModeRangeZ", 3, 0, 1024, "Z Range for EasyPlace");
+        public static final ConfigInteger EASY_PLACE_MODE_MAX_BLOCKS    = new ConfigInteger("easyPlaceModeMaxBlocks", 3, 1, 1000000, "Max block interactions per cycle");
+        public static final ConfigBoolean EASY_PLACE_MODE_BREAK_BLOCKS  = new ConfigBoolean("easyPlaceModeBreakBlocks", false, "Automatically breaks blocks. Currently only works in Creative.");
+        public static final ConfigBoolean FLUID_REPLACE_ENABLED         = new ConfigBoolean("fluidReplaceEnabled", false, "Replaces fluids when easy place mode is active");
+        public static final ConfigStringList FLUID_REPLACE_WHITELIST    = new ConfigStringList("fluidReplaceWhitelist", ImmutableList.of("minecraft:gravel","minecraft:stone", "minecraft:sand", "minecraft:red_sand"),"Whitelist of items that can be used to replace fluids");
+
+
         public static final ImmutableList<IConfigBase> OPTIONS = ImmutableList.of(
                 AREAS_PER_WORLD,
                 //BETTER_RENDER_ORDER,
@@ -82,7 +89,19 @@ public class Configs implements IConfigHandler
                 PASTE_COMMAND_LIMIT,
                 PASTE_COMMAND_SETBLOCK,
                 PICK_BLOCKABLE_SLOTS,
-                TOOL_ITEM
+                TOOL_ITEM,
+
+                FLUID_REPLACE_ENABLED,
+                FLUID_REPLACE_WHITELIST,
+
+                EASY_PLACE_MODE_PRINT,
+                EASY_PLACE_MODE_RANGE_X,
+                EASY_PLACE_MODE_RANGE_Y,
+                EASY_PLACE_MODE_RANGE_Z,
+                EASY_PLACE_MODE_MAX_BLOCKS,
+                EASY_PLACE_MODE_BREAK_BLOCKS,
+                EASY_PLACE_MODE_PRECISE,
+                ALLOW_ALTERNATE_BLOCKS
         );
     }
 
