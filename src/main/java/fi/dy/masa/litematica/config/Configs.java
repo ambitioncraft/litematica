@@ -96,15 +96,16 @@ public class Configs implements IConfigHandler
                 PICK_BLOCKABLE_SLOTS,
                 TOOL_ITEM,
 
+                //CHEATY
                 FLUID_REPLACE_ENABLED,
                 FLUID_REPLACE_WHITELIST,
-
                 EASY_PLACE_MODE_PRINT,
                 EASY_PLACE_MODE_RANGE_X,
                 EASY_PLACE_MODE_RANGE_Y,
                 EASY_PLACE_MODE_RANGE_Z,
                 EASY_PLACE_MODE_MAX_BLOCKS,
                 EASY_PLACE_MODE_BREAK_BLOCKS,
+
                 EASY_PLACE_MODE_PRECISE,
                 ALLOW_ALTERNATE_BLOCKS
         );

@@ -38,12 +38,12 @@ import static fi.dy.masa.litematica.config.Configs.Generic.*;
 
 public class Printer {
     @Environment(EnvType.CLIENT)
-    public static ActionResult replaceLiquids(MinecraftClient mc) {
+    public static EasyPlaceResult replaceLiquids(MinecraftClient mc) {
 
 
         RayTraceWrapper traceWrapper = RayTraceUtils.getGenericTrace(mc.world, mc.player, 6, true);
         if (traceWrapper == null) {
-            return ActionResult.FAIL;
+            return EasyPlaceResult.FAIL;
         }
         BlockHitResult trace = traceWrapper.getBlockHitResult();
         BlockPos tracePos = trace.getBlockPos();
@@ -87,7 +87,7 @@ public class Printer {
 
         String item = playerStack.getItem().getTranslationKey().replace("block.","").replace(".",":");
         if(!whiteList.contains(item)){
-            return ActionResult.FAIL;
+            return EasyPlaceResult.FAIL;
         }
 
         for (int x = fromX; x <= toX; x++) {
@@ -117,14 +117,14 @@ public class Printer {
                 }
             }
         }
-        return ActionResult.PASS;
+        return EasyPlaceResult.PASS;
     }
 
     @Environment(EnvType.CLIENT)
-    public static ActionResult doPrinterAction(MinecraftClient mc) {
+    public static EasyPlaceResult doPrinterAction(MinecraftClient mc) {
         RayTraceWrapper traceWrapper = RayTraceUtils.getGenericTrace(mc.world, mc.player, 6, true);
         if (traceWrapper == null) {
-            return ActionResult.FAIL;
+            return EasyPlaceResult.FAIL;
         }
         BlockHitResult trace = traceWrapper.getBlockHitResult();
         BlockPos tracePos = trace.getBlockPos();
@@ -136,7 +136,7 @@ public class Printer {
         List<PlacementPart> list = DataManager.getSchematicPlacementManager().getAllPlacementsTouchingSubChunk(cpos);
 
         if (list.isEmpty()) {
-            return ActionResult.PASS;
+            return EasyPlaceResult.PASS;
         }
         int maxX = 0;
         int maxY = 0;
@@ -181,7 +181,7 @@ public class Printer {
         }
 
         if (!foundBox) {
-            return ActionResult.PASS;
+            return EasyPlaceResult.PASS;
         }
 
         int rangeX = EASY_PLACE_MODE_RANGE_X.getIntegerValue();
@@ -264,7 +264,7 @@ public class Printer {
                             interact++;
 
                             if (interact >= maxInteract) {
-                                return ActionResult.SUCCESS;
+                                return EasyPlaceResult.SUCCESS;
                             }
                         }
                     }
@@ -364,7 +364,7 @@ public class Printer {
                                         interact++;
 
                                         if (interact >= maxInteract) {
-                                            return ActionResult.SUCCESS;
+                                            return EasyPlaceResult.SUCCESS;
                                         }
                                     }
 
@@ -500,7 +500,7 @@ public class Printer {
                         if (!hasPicked) {
 
                             if (PlacementUtils.Precise.doSchematicWorldPickBlockPrinter(true, mc, stateSchematic, pos) == false) {
-                                return ActionResult.FAIL;
+                                return EasyPlaceResult.FAIL;
                             }
                             hasPicked = true;
                             pickedBlock = stateSchematic.getBlock().getName();
@@ -544,7 +544,7 @@ public class Printer {
                         }
 
                         if (interact >= maxInteract) {
-                            return ActionResult.SUCCESS;
+                            return EasyPlaceResult.SUCCESS;
                         }
 
                     }
@@ -554,7 +554,7 @@ public class Printer {
 
         }
 
-        return (interact > 0) ? ActionResult.SUCCESS : ActionResult.FAIL;
+        return (interact > 0) ? EasyPlaceResult.SUCCESS : EasyPlaceResult.FAIL;
     }
 
 

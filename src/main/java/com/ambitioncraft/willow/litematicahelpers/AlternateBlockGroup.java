@@ -9,7 +9,8 @@ public class AlternateBlockGroup {
     public ImmutableSet<Block> blockList = ImmutableSet.of();
     public Boolean ignoreRotation = false;
     public Boolean enabled = true;
-    private static AlternateBlockGroup from(String name, Boolean ignoreRotation, ImmutableSet<Block> blockList,boolean enabled) {
+
+    private static AlternateBlockGroup from(String name, Boolean ignoreRotation, ImmutableSet<Block> blockList, boolean enabled) {
         AlternateBlockGroup bg = new AlternateBlockGroup();
         bg.name = name;
         bg.ignoreRotation = ignoreRotation;
@@ -131,7 +132,7 @@ public class AlternateBlockGroup {
 
     public static AlternateBlockGroup FENCE_GATES = AlternateBlockGroup.from(
             "Fence Gates",
-            false,
+            true,
             ImmutableSet.of(
                     Blocks.ACACIA_FENCE_GATE,
                     Blocks.BIRCH_FENCE_GATE,
@@ -173,6 +174,22 @@ public class AlternateBlockGroup {
                     Blocks.JUNGLE_TRAPDOOR,
                     Blocks.SPRUCE_TRAPDOOR,
                     Blocks.WARPED_TRAPDOOR
+            ),
+            true
+    );
+
+    public static AlternateBlockGroup DOORS = AlternateBlockGroup.from(
+            "Doors",
+            false,
+            ImmutableSet.of(
+                    Blocks.ACACIA_DOOR,
+                    Blocks.BIRCH_DOOR,
+                    Blocks.CRIMSON_DOOR,
+                    Blocks.DARK_OAK_DOOR,
+                    Blocks.OAK_DOOR,
+                    Blocks.JUNGLE_DOOR,
+                    Blocks.SPRUCE_DOOR,
+                    Blocks.WARPED_DOOR
             ),
             true
     );
@@ -259,6 +276,7 @@ public class AlternateBlockGroup {
     );
 
 
+
     public static AlternateBlockGroup PLANKS = AlternateBlockGroup.from(
             "PLANKS",
             false,
@@ -271,6 +289,22 @@ public class AlternateBlockGroup {
                     Blocks.JUNGLE_PLANKS,
                     Blocks.SPRUCE_PLANKS,
                     Blocks.WARPED_PLANKS
+            ),
+            true
+    );
+
+    public static AlternateBlockGroup WOOD_STAIRS = AlternateBlockGroup.from(
+            "Wood Stairs",
+            false,
+            ImmutableSet.of(
+                    Blocks.ACACIA_STAIRS,
+                    Blocks.BIRCH_STAIRS,
+                    Blocks.CRIMSON_STAIRS,
+                    Blocks.DARK_OAK_STAIRS,
+                    Blocks.OAK_STAIRS,
+                    Blocks.JUNGLE_STAIRS,
+                    Blocks.SPRUCE_STAIRS,
+                    Blocks.WARPED_STAIRS
             ),
             true
     );
@@ -292,7 +326,7 @@ public class AlternateBlockGroup {
     );
 
     public static AlternateBlockGroup STONE_SLABS = AlternateBlockGroup.from(
-            "Wood Slabs",
+            "Stone Slabs",
             false,
             ImmutableSet.of(
                     Blocks.ANDESITE_SLAB,
@@ -300,18 +334,20 @@ public class AlternateBlockGroup {
                     Blocks.BRICK_SLAB,
                     Blocks.COBBLESTONE_SLAB,
                     Blocks.DIORITE_SLAB,
+                    Blocks.DARK_PRISMARINE_SLAB,
                     Blocks.GRANITE_SLAB,
                     Blocks.MOSSY_COBBLESTONE_SLAB,
                     Blocks.MOSSY_STONE_BRICK_SLAB,
                     Blocks.NETHER_BRICK_SLAB,
                     Blocks.POLISHED_BLACKSTONE_BRICK_SLAB,
                     Blocks.POLISHED_BLACKSTONE_SLAB,
-                    Blocks.PRISMARINE_SLAB,
-                    Blocks.RED_NETHER_BRICK_SLAB,
-                    Blocks.STONE_BRICK_SLAB,
                     Blocks.POLISHED_ANDESITE_SLAB,
                     Blocks.POLISHED_DIORITE_SLAB,
                     Blocks.POLISHED_GRANITE_SLAB,
+                    Blocks.PRISMARINE_SLAB,
+                    Blocks.PRISMARINE_BRICK_SLAB,
+                    Blocks.RED_NETHER_BRICK_SLAB,
+                    Blocks.STONE_BRICK_SLAB,
                     Blocks.STONE_SLAB,
                     Blocks.PURPUR_SLAB
             ),
@@ -326,6 +362,7 @@ public class AlternateBlockGroup {
                     Blocks.BLACKSTONE,
                     Blocks.BRICKS,
                     Blocks.COBBLESTONE,
+                    Blocks.DARK_PRISMARINE,
                     Blocks.DIORITE,
                     Blocks.GRANITE,
                     Blocks.MOSSY_COBBLESTONE,
@@ -337,12 +374,69 @@ public class AlternateBlockGroup {
                     Blocks.POLISHED_DIORITE,
                     Blocks.POLISHED_ANDESITE,
                     Blocks.PRISMARINE,
+                    Blocks.PRISMARINE_BRICKS,
+                    Blocks.PURPUR_BLOCK,
                     Blocks.RED_NETHER_BRICKS,
                     Blocks.STONE,
                     Blocks.STONE_BRICKS
             ),
             true
     );
+
+    public static AlternateBlockGroup WOOD_BUTTONS = AlternateBlockGroup.from(
+            "Wood Buttons",
+            true,
+            ImmutableSet.of(
+                    Blocks.ACACIA_BUTTON,
+                    Blocks.BIRCH_BUTTON,
+                    Blocks.CRIMSON_BUTTON,
+                    Blocks.DARK_OAK_BUTTON,
+                    Blocks.OAK_BUTTON,
+                    Blocks.JUNGLE_BUTTON,
+                    Blocks.SPRUCE_BUTTON,
+                    Blocks.WARPED_BUTTON
+            ),
+            true
+    );
+    public static AlternateBlockGroup STONE_BUTTONS = AlternateBlockGroup.from(
+            "Stone Buttons",
+            true,
+            ImmutableSet.of(
+                    Blocks.POLISHED_BLACKSTONE_BUTTON,
+                    Blocks.STONE_BUTTON
+            ),
+            true
+    );
+
+    public static AlternateBlockGroup STONE_STAIRS = AlternateBlockGroup.from(
+            "Stone Stairs",
+            false,
+            ImmutableSet.of(
+                    Blocks.ANDESITE_STAIRS,
+                    Blocks.BLACKSTONE_STAIRS,
+                    Blocks.BRICK_STAIRS,
+                    Blocks.COBBLESTONE_STAIRS,
+                    Blocks.DARK_PRISMARINE_STAIRS,
+                    Blocks.DIORITE_STAIRS,
+                    Blocks.GRANITE_STAIRS,
+                    Blocks.MOSSY_COBBLESTONE_STAIRS,
+                    Blocks.MOSSY_STONE_BRICK_STAIRS,
+                    Blocks.NETHER_BRICK_STAIRS,
+                    Blocks.POLISHED_BLACKSTONE_BRICK_STAIRS,
+                    Blocks.POLISHED_BLACKSTONE_STAIRS,
+                    Blocks.POLISHED_GRANITE_STAIRS,
+                    Blocks.POLISHED_DIORITE_STAIRS,
+                    Blocks.POLISHED_ANDESITE_STAIRS,
+                    Blocks.PURPUR_STAIRS,
+                    Blocks.PRISMARINE_STAIRS,
+                    Blocks.PRISMARINE_BRICK_STAIRS,
+                    Blocks.RED_NETHER_BRICK_STAIRS,
+                    Blocks.STONE_STAIRS,
+                    Blocks.STONE_BRICK_STAIRS
+            ),
+            true
+    );
+
 
     public static AlternateBlockGroup CONCRETE = AlternateBlockGroup.from(
             "CONCRETE",
@@ -459,11 +553,9 @@ public class AlternateBlockGroup {
             false,
             ImmutableSet.of(
                     Blocks.SAND,
-                    Blocks.RED_SAND
+                    Blocks.RED_SAND,
+                    Blocks.GRAVEL
             ),
             true
     );
-
-
-
 }

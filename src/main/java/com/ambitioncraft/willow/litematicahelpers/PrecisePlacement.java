@@ -26,12 +26,12 @@ import net.minecraft.world.World;
 public class PrecisePlacement {
 
     @Environment(EnvType.CLIENT)
-    public static ActionResult easyPlace(MinecraftClient mc) {
+    public static EasyPlaceResult easyPlace(MinecraftClient mc) {
         // get the block right away
         RayTraceUtils.RayTraceWrapper traceWrapper = RayTraceUtils.getGenericTrace(mc.world, mc.player, 6, true);
 
         if(traceWrapper == null){
-            return ActionResult.PASS;
+            return EasyPlaceResult.PASS;
         }
 
         if (traceWrapper.getHitType() == RayTraceUtils.RayTraceWrapper.HitType.SCHEMATIC_BLOCK){
@@ -43,27 +43,27 @@ public class PrecisePlacement {
             ItemStack stack = MaterialCache.getInstance().getRequiredBuildItemForState(stateSchematic);
 
             if(stack.isEmpty()){
-                return ActionResult.SUCCESS;
+                return EasyPlaceResult.SUCCESS;
             }
 
             BlockState stateClient = mc.world.getBlockState(pos);
             if(stateSchematic == stateClient){
-                return ActionResult.FAIL;
+                return EasyPlaceResult.FAIL;
             }
 
             if(PlacementUtils.Vanilla.easyPlaceBlockChecksCancel(stateSchematic, stateClient, mc.player, traceVanilla)){
                 checkMultipleClick(pos, stateSchematic, stateClient, mc);
-                return ActionResult.FAIL;
+                return EasyPlaceResult.FAIL;
             }
 
             if (PlacementUtils.isPositionCached(pos, false)){
-                return ActionResult.FAIL;
+                return EasyPlaceResult.FAIL;
             }
 
             // Try and pick the block from the schematic, placing the stack in the players hand.
             stack = WorldUtils.doSchematicWorldPickBlock(true,mc);
             if(stack == null){
-                return ActionResult.FAIL;
+                return EasyPlaceResult.FAIL;
             }
 
             Hand hand = EntityUtils.getUsedHandForItem(mc.player, stack);
@@ -71,7 +71,7 @@ public class PrecisePlacement {
             // Abort if a wrong item is in the player's hand
             if (hand == null)
             {
-                return ActionResult.FAIL;
+                return EasyPlaceResult.FAIL;
             }
 
 //            if(!mc.player.abilities.creativeMode && mc.player.inventory.getSlotWithStack(stack) == -1){
@@ -152,7 +152,7 @@ public class PrecisePlacement {
                     PlacementUtils.FacingData facedata = PlacementUtils.getFacingData(stateSchematic);
                     if (!PlacementUtils.canPlaceFace(facedata, stateSchematic, mc.player, primaryFacing, horizontalFacing)) {
                         //System.out.println("Cannot place face");
-                        return ActionResult.FAIL;
+                        return EasyPlaceResult.FAIL_ROTATION;
                     }
 
                     if ((schemaBlock instanceof DoorBlock
@@ -160,7 +160,7 @@ public class PrecisePlacement {
                             || (schemaBlock instanceof BedBlock
                             && stateSchematic.get(BedBlock.PART) == BedPart.HEAD)
                     ) {
-                        return ActionResult.FAIL;
+                        return EasyPlaceResult.FAIL;
                     }
                 }
 
@@ -200,7 +200,7 @@ public class PrecisePlacement {
 
                     if (clientStateItem == null || clientStateItem.isAir()) {
                         if (!(schemaBlock instanceof TrapdoorBlock)) {
-                            return ActionResult.FAIL;
+                            return EasyPlaceResult.FAIL;
                         }
                         BlockPos testPos;
 
@@ -227,7 +227,7 @@ public class PrecisePlacement {
                              */
                             if ((schematicNItem != null && !schematicNItem.isAir())
                                     || (schematicTItem != null && !schematicTItem.isAir())) {
-                                return ActionResult.FAIL;
+                                return EasyPlaceResult.FAIL;
                             }
                             npos = pos;
                         } else
@@ -236,7 +236,7 @@ public class PrecisePlacement {
                         // If trapdoor is placed from top or bottom, directionality is decided by player
                         // direction
                         if (stateSchematic.get(TrapdoorBlock.FACING).getOpposite() != horizontalFacing) {
-                            return ActionResult.FAIL;
+                            return EasyPlaceResult.FAIL;
                         }
 
                     }
@@ -264,14 +264,14 @@ public class PrecisePlacement {
                     mc.interactionManager.interactBlock(mc.player, mc.world, hand, hitResult);
                 }
             }
-            return ActionResult.SUCCESS;
+            return EasyPlaceResult.SUCCESS;
 
         }
         else if (traceWrapper.getHitType() == RayTraceUtils.RayTraceWrapper.HitType.VANILLA_BLOCK)
         {
-            return PlacementUtils.Vanilla.placementRestrictionInEffect(mc) ? ActionResult.FAIL : ActionResult.PASS;
+            return PlacementUtils.Vanilla.placementRestrictionInEffect(mc) ? EasyPlaceResult.FAIL : EasyPlaceResult.PASS;
         }
-        return ActionResult.PASS;
+        return EasyPlaceResult.PASS;
     }
 
     @Environment(EnvType.CLIENT)

@@ -493,5 +493,7 @@
     "litematica.tool_mode.name.paste_schematic": "Paste Schematic in world",
     "litematica.tool_mode.name.rebuild": "Rebuild Schematic",
     "litematica.tool_mode.name.replace_block": "Replace block",
-    "litematica.tool_mode.name.schematic_placement": "Schematic Placement"
+    "litematica.tool_mode.name.schematic_placement": "Schematic Placement",
+
+    "willow.message.easy_place_fail_rotation": "Change Player Rotation"
 }

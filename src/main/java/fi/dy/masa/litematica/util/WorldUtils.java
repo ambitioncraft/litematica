@@ -9,6 +9,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.ambitioncraft.willow.litematicahelpers.AlternateBlockUtils;
+import com.ambitioncraft.willow.litematicahelpers.EasyPlaceResult;
 import com.mojang.datafixers.DataFixer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -441,18 +442,20 @@ public class WorldUtils
 
     public static boolean handleEasyPlace(MinecraftClient mc)
     {
-        ActionResult result = doEasyPlaceAction(mc);
+        EasyPlaceResult result = doEasyPlaceAction(mc);
 
-        if (result == ActionResult.FAIL)
+        if (result == EasyPlaceResult.FAIL)
         {
-            InfoUtils.showGuiOrInGameMessage(MessageType.WARNING, "litematica.message.easy_place_fail");
+            InfoUtils.showGuiOrActionBarMessage(MessageType.WARNING, "litematica.message.easy_place_fail");
             return true;
+        }else if(result == EasyPlaceResult.FAIL_ROTATION){
+            InfoUtils.showGuiOrActionBarMessage(MessageType.SUCCESS, "willow.message.easy_place_fail_rotation");
         }
 
-        return result != ActionResult.PASS;
+        return result != EasyPlaceResult.PASS;
     }
 
-    private static ActionResult doEasyPlaceAction(MinecraftClient mc)
+    private static EasyPlaceResult doEasyPlaceAction(MinecraftClient mc)
     {
         if(Configs.Generic.FLUID_REPLACE_ENABLED.getBooleanValue()){
             return com.ambitioncraft.willow.litematicahelpers.Printer.replaceLiquids(mc);
@@ -467,7 +470,7 @@ public class WorldUtils
 
         if (traceWrapper == null)
         {
-            return ActionResult.PASS;
+            return EasyPlaceResult.PASS;
         }
 
         if (traceWrapper.getHitType() == RayTraceWrapper.HitType.SCHEMATIC_BLOCK)
@@ -482,7 +485,7 @@ public class WorldUtils
             // Already placed to that position, possible server sync delay
             if (easyPlaceIsPositionCached(pos))
             {
-                return ActionResult.FAIL;
+                return EasyPlaceResult.FAIL;
             }
 
             if (stack.isEmpty() == false)
@@ -491,19 +494,19 @@ public class WorldUtils
 
                 if (stateSchematic == stateClient)
                 {
-                    return ActionResult.FAIL;
+                    return EasyPlaceResult.FAIL;
                 }
 
                 // Abort if there is already a block in the target position
                 if (easyPlaceBlockChecksCancel(stateSchematic, stateClient, mc.player, traceVanilla, stack))
                 {
-                    return ActionResult.FAIL;
+                    return EasyPlaceResult.FAIL;
                 }
 
                 // Abort if the required item was not able to be pick-block'd
                 stack = doSchematicWorldPickBlock(true, mc);
                 if(stack == null){
-                    return ActionResult.FAIL;
+                    return EasyPlaceResult.FAIL;
                 }
 
                 Hand hand = EntityUtils.getUsedHandForItem(mc.player, stack);
@@ -511,7 +514,7 @@ public class WorldUtils
                 // Abort if a wrong item is in the player's hand
                 if (hand == null)
                 {
-                    return ActionResult.FAIL;
+                    return EasyPlaceResult.FAIL;
                 }
 
                 Vec3d hitPos = trace.getPos();
@@ -567,14 +570,14 @@ public class WorldUtils
                 }
             }
 
-            return ActionResult.SUCCESS;
+            return EasyPlaceResult.SUCCESS;
         }
         else if (traceWrapper.getHitType() == RayTraceWrapper.HitType.VANILLA_BLOCK)
         {
-            return placementRestrictionInEffect(mc) ? ActionResult.FAIL : ActionResult.PASS;
+            return placementRestrictionInEffect(mc) ? EasyPlaceResult.FAIL : EasyPlaceResult.PASS;
         }
 
-        return ActionResult.PASS;
+        return EasyPlaceResult.PASS;
     }
 
     private static boolean easyPlaceBlockChecksCancel(BlockState stateSchematic, BlockState stateClient,

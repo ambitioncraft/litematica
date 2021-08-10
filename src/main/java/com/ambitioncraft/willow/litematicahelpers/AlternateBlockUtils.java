@@ -42,7 +42,12 @@ public class AlternateBlockUtils {
                 AlternateBlockGroup.WALL_SIGNS,
                 AlternateBlockGroup.WOOD_SLABS,
                 AlternateBlockGroup.WOODEN_FENCES,
-                AlternateBlockGroup.WOOL
+                AlternateBlockGroup.WOOL,
+                AlternateBlockGroup.DOORS,
+                AlternateBlockGroup.STONE_BUTTONS,
+                AlternateBlockGroup.WOOD_BUTTONS,
+                AlternateBlockGroup.STONE_STAIRS,
+                AlternateBlockGroup.WOOD_STAIRS
         );
         stackCache.clear();
         ImmutableMap.Builder<Block, AlternateBlockGroup> builder = ImmutableMap.builder();
