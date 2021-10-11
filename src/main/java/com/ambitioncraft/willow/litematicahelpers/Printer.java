@@ -19,6 +19,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.*;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.block.FluidRenderer;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -107,6 +108,7 @@ public class Printer {
                     FluidState fluidState = mc.world.getFluidState(pos);
                     if(fluidState != null && !fluidState.isEmpty()){
                         if(fluidState.getLevel() == 8) {
+                            fluidState.get(FluidBlock.LEVEL);
                             System.out.println("replace fluid");
                             Vec3d hitPos = new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                             BlockHitResult hit = new BlockHitResult(hitPos, Direction.NORTH, pos, false);

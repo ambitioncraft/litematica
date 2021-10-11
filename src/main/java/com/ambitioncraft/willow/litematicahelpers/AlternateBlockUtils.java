@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import java.util.*;
 
 public class AlternateBlockUtils {
-    public static AlternateBlockUtils instance;
+    private static AlternateBlockUtils instance;
     public ImmutableMap<Block, AlternateBlockGroup> altBlockGroupsMap = ImmutableMap.of();
     public ImmutableSet<AlternateBlockGroup> alternateBlockGroups = ImmutableSet.of();
     public IdentityHashMap<Block, ItemStack> stackCache = new IdentityHashMap<>();
@@ -137,7 +137,7 @@ public class AlternateBlockUtils {
     }
 
     public boolean isAlternateBlockFor(ItemStack original, ItemStack alt) {
-        if (original.isEmpty() || alt.isEmpty()) {
+        if (original == null || alt == null || original.isEmpty() || alt.isEmpty()) {
             return false;
         }
         Item origBlock = original.getItem();

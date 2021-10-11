@@ -85,8 +85,10 @@ public class EntityUtils
     {
         Hand hand = null;
 
-        if (InventoryUtils.areStacksEqual(player.getMainHandStack(), stack) || AlternateBlockUtils.instance.isAlternateBlockFor(player.getMainHandStack(),stack))
+        if (InventoryUtils.areStacksEqual(player.getMainHandStack(), stack))
         {
+            hand = Hand.MAIN_HAND;
+        }else if(AlternateBlockUtils.getInstance().isAlternateBlockFor(player.getMainHandStack(),stack)){
             hand = Hand.MAIN_HAND;
         }
         else if (player.getMainHandStack().isEmpty() &&
